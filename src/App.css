@@ -2,3 +2,22 @@
   font-family: "Poppins", sans-serif;
   font-style: normal;
 }
+
+.principal {
+  background: url("../src/assets/Images/backgroundMain.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.imgHeaderLogin {
+  background: url("../src/assets/Images/logo.png");
+  background-position: center;
+  background-repeat: no-repeat;
+}

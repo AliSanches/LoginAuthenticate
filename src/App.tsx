@@ -1,12 +1,31 @@
 import "./App.css";
 import Login from "./pages/Login/Login";
+import CreateUser from "./pages/CreateUser/CreateUser";
+import ViewUser from "./pages/ViewUser/ViewUser";
 
 import { ChakraProvider } from "@chakra-ui/react";
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 function App() {
   return (
     <ChakraProvider>
-      <Login />
+      <Router>
+        <div className="principal">
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/create" element={<CreateUser />} />
+            <Route path="/view" element={<ViewUser />} />
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </Router>
     </ChakraProvider>
   );
 }

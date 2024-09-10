@@ -1,21 +1,29 @@
-import { Box, FormLabel, Input, Flex, Button, Text } from "@chakra-ui/react";
+import {
+  Box,
+  FormLabel,
+  Input,
+  Flex,
+  Button,
+  FormControl,
+} from "@chakra-ui/react";
 
-import { FaUserPlus } from "react-icons/fa";
-import { FaArrowRight } from "react-icons/fa6";
+import { GiConfirmed } from "react-icons/gi";
+import { FaDeleteLeft } from "react-icons/fa6";
 
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function CreateUser() {
   const navigate = useNavigate();
 
-  const handleCreate = () => {
-    navigate("/create");
+  const handleCreateUser = () => {
+    navigate("/");
   };
 
   return (
-    <Flex
+    <FormControl
       w={{ base: "90%", sm: "80%", md: "500px" }}
       h={700}
+      display={"flex"}
       flexDirection={"column"}
       bg={"transparent"}
       rounded={"md"}
@@ -31,6 +39,9 @@ export default function Login() {
         justifyContent={"center"}
         flexDirection={"column"}
       >
+        <FormLabel>Nome</FormLabel>
+        <Input size={"sm"} rounded={"md"} mb={5} placeholder="seu nome"></Input>
+
         <FormLabel>E-mail</FormLabel>
         <Input
           size={"sm"}
@@ -49,27 +60,21 @@ export default function Login() {
         ></Input>
 
         <Button
-          rightIcon={<FaArrowRight />}
+          rightIcon={<GiConfirmed />}
           colorScheme="blue"
           variant="solid"
           mb={10}
+          onClick={handleCreateUser}
         >
-          Entrar
+          Cadastrar
         </Button>
 
         <Flex flexDirection={"column"} textAlign={"left"}>
-          <Text>Não possui uma conta?</Text>
-          <Button
-            p={2}
-            w={132}
-            h={8}
-            leftIcon={<FaUserPlus />}
-            onClick={handleCreate}
-          >
-            Criar Conta
+          <Button p={2} w={170} h={8} leftIcon={<FaDeleteLeft />}>
+            Limpar Campos
           </Button>
         </Flex>
       </Flex>
-    </Flex>
+    </FormControl>
   );
 }
