@@ -3,21 +3,21 @@ import { createUser } from "./UserThunk";
 
 // representa os dados do usuario
 export interface Users {
-  nome: string;
+  name: string;
   email: string;
-  senha: string;
+  password: string;
 }
 
 // representa o estado global(UserState)
 export interface UserState {
   user: Users | null;
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  status: "idle" | "loading" | "succeeded" | "failed";
 }
 
 // representa o estado inicial
 const INITIAL_STATE: UserState = {
   user: null,
-  status: "idle"
+  status: "idle",
 };
 
 const sliceUser = createSlice({

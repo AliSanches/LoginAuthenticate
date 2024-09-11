@@ -4,6 +4,8 @@ import CreateUser from "./pages/CreateUser/CreateUser";
 import ViewUser from "./pages/ViewUser/ViewUser";
 
 import { ChakraProvider } from "@chakra-ui/react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   BrowserRouter as Router,
@@ -15,6 +17,7 @@ import {
 function App() {
   return (
     <ChakraProvider>
+      <ToastContainer />
       <Router>
         <div className="principal">
           <Routes>
