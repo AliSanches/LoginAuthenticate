@@ -10,11 +10,3 @@ export const createUser = createAsyncThunk<Users, Users>(
     return response.data;
   }
 );
-
-export const listUser = createAsyncThunk<Users, Users>(
-  "user/list",
-  async () => {
-    const response = await axios.get<Users>("/user/list");
-    return response.data;
-  }
-);

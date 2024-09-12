@@ -14,33 +14,34 @@ import { FaDeleteLeft } from "react-icons/fa6";
 
 import { useNavigate } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createUser } from "../../redux/user/UserThunk";
-import { AppDispatch } from "../../redux/user/store";
+import { AppDispatch, RootState } from "../../redux/user/store";
 import { notify } from "../../components/notify";
 
 export default function CreateUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const status = useSelector((state: RootState) => state.users.status)
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const handleCreateUser = async (e: React.FormEvent) => {
+  const handleCreateUser = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("Funcionando");
-
-    const response = await dispatch(createUser({ name, email, password }));
-
-    if (response) {
+    dispatch(createUser({ name, email, password }));
+  
+    if (status === "succeeded") {
+      notify("Sucesso", "success");
       navigate("/");
-      notify("Sucesso!", "success");
-    } else {
-      notify("Erro ao criar usuário!", "Error");
+    }
+    else {
+      notify("Falha", "error");
     }
   };
+
 
   return (
     <form onSubmit={handleCreateUser}>

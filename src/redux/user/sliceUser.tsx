@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { createUser } from "./UserThunk";
 
 // representa os dados do usuario
@@ -12,41 +12,37 @@ export interface Users {
 export interface UserState {
   user: Users | null;
   status: "idle" | "loading" | "succeeded" | "failed";
+  error: any,
 }
 
 // representa o estado inicial
 const INITIAL_STATE: UserState = {
   user: null,
   status: "idle",
+  error: null,
 };
 
 const sliceUser = createSlice({
   name: "user",
   initialState: INITIAL_STATE,
   reducers: {
-    setUser(state, action: PayloadAction<Users>) {
-      state.user = action.payload;
-    },
-    clearUser(state) {
-      state.user = null;
-    },
+   
   },
-  extraReducers: (builder) => {
+  extraReducers(builder) {
     builder
-      .addCase(createUser.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(createUser.fulfilled, (state, action: PayloadAction<Users>) => {
-        state.user = action.payload;
-        state.status = "succeeded";
-      })
-      .addCase(createUser.rejected, (state, action) => {
-        state.status = "failed";
-        console.error("Falha ao criar usuário:", action.error.message);
-      });
+    .addCase(createUser.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.user = action.payload;
+    })
+    .addCase(createUser.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.payload;
+    })
+    .addCase(createUser.pending, (state) => {
+      state.status = "loading";
+      state.error = null;
+    })
   },
 });
-
-export const { setUser, clearUser } = sliceUser.actions;
 
 export default sliceUser.reducer;
