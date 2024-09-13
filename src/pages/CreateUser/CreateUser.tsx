@@ -1,16 +1,10 @@
-import {
-  Box,
-  FormLabel,
-  Input,
-  Flex,
-  Button,
-  FormControl,
-} from "@chakra-ui/react";
+import { FormLabel, Input, Flex, Button, FormControl } from "@chakra-ui/react";
 
 import { useState } from "react";
 
 import { GiConfirmed } from "react-icons/gi";
 import { FaDeleteLeft } from "react-icons/fa6";
+import { MdExitToApp } from "react-icons/md";
 
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +16,7 @@ import { notify } from "../../components/notify";
 export default function CreateUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const status = useSelector((state: RootState) => state.users.status)
+  const status = useSelector((state: RootState) => state.users.status);
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -32,16 +26,24 @@ export default function CreateUser() {
     e.preventDefault();
 
     dispatch(createUser({ name, email, password }));
-  
+
     if (status === "succeeded") {
       notify("Sucesso", "success");
       navigate("/");
-    }
-    else {
+    } else {
       notify("Falha", "error");
     }
   };
 
+  const handleHome = () => {
+    navigate("/");
+  };
+
+  const handleClear = () => {
+    setName("");
+    setEmail("");
+    setPassword("");
+  };
 
   return (
     <form onSubmit={handleCreateUser}>
@@ -55,12 +57,29 @@ export default function CreateUser() {
         boxShadow="dark-lg"
         onSubmit={handleCreateUser}
       >
-        <Box
+        <Flex
           w={"100%"}
           h={200}
           className="imgHeaderLogin"
           roundedTop="md"
-        ></Box>
+          justifyContent={"right"}
+          color={"white"}
+        >
+          <Button
+            bg={"transparent"}
+            color={"white"}
+            p={0}
+            rounded={"50%"}
+            fontSize={28}
+            mt={2}
+            mr={2}
+            colorScheme="orange"
+            onClick={handleHome}
+          >
+            <MdExitToApp />
+          </Button>
+        </Flex>
+
         <Flex
           w={{ md: "auto" }}
           h={500}
@@ -76,6 +95,7 @@ export default function CreateUser() {
             rounded={"md"}
             mb={5}
             placeholder="seu nome"
+            value={name}
             onChange={(e) => setName(e.target.value)}
           ></Input>
 
@@ -85,6 +105,7 @@ export default function CreateUser() {
             rounded={"md"}
             mb={5}
             placeholder="exemplo@gmail.com.br"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           ></Input>
 
@@ -95,6 +116,7 @@ export default function CreateUser() {
             rounded={"md"}
             mb={10}
             placeholder="senha"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></Input>
 
@@ -109,7 +131,13 @@ export default function CreateUser() {
           </Button>
 
           <Flex flexDirection={"column"} textAlign={"left"}>
-            <Button p={2} w={170} h={8} leftIcon={<FaDeleteLeft />}>
+            <Button
+              p={2}
+              w={170}
+              h={8}
+              leftIcon={<FaDeleteLeft />}
+              onClick={handleClear}
+            >
               Limpar Campos
             </Button>
           </Flex>

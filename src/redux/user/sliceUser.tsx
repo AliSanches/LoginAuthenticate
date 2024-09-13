@@ -12,7 +12,7 @@ export interface Users {
 export interface UserState {
   user: Users | null;
   status: "idle" | "loading" | "succeeded" | "failed";
-  error: any,
+  error: any;
 }
 
 // representa o estado inicial
@@ -25,23 +25,21 @@ const INITIAL_STATE: UserState = {
 const sliceUser = createSlice({
   name: "user",
   initialState: INITIAL_STATE,
-  reducers: {
-   
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
-    .addCase(createUser.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.user = action.payload;
-    })
-    .addCase(createUser.rejected, (state, action) => {
-      state.status = "failed";
-      state.error = action.payload;
-    })
-    .addCase(createUser.pending, (state) => {
-      state.status = "loading";
-      state.error = null;
-    })
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(createUser.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      });
   },
 });
 
