@@ -4,10 +4,10 @@ import { Users } from "./sliceUser";
 import axios from "axios";
 
 export const createUser = createAsyncThunk<Users, Users>(
-  "user/create",
+  "user/register",
   async (userData) => {
     const response = await axios.post<Users>(
-      JSON.stringify(import.meta.env) + "/user/create",
+      "http://localhost:4000/register",
       userData
     );
     return response.data;

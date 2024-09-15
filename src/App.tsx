@@ -22,7 +22,7 @@ function App() {
         <div className="principal">
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/create" element={<CreateUser />} />
+            <Route path="/register" element={<CreateUser />} />
             <Route path="/view" element={<ViewUser />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />

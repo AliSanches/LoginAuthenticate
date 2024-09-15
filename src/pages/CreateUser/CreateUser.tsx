@@ -22,16 +22,20 @@ export default function CreateUser() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const handleCreateUser = (e: React.FormEvent) => {
+  const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    dispatch(createUser({ name, email, password }));
-
-    if (status === "succeeded") {
-      notify("Sucesso", "success");
-      navigate("/");
+    if (name === "" || email === "" || password === "") {
+      notify("Preencha todos os campos", "error");
     } else {
-      notify("Falha", "error");
+      dispatch(createUser({ name, email, password }));
+
+      if (status === "succeeded") {
+        notify("Sucesso", "success");
+        navigate("/");
+      } else {
+        notify("Falha", "error");
+      }
     }
   };
 
@@ -48,7 +52,7 @@ export default function CreateUser() {
   return (
     <form onSubmit={handleCreateUser}>
       <FormControl
-        w={{ base: "90%", sm: "80%", md: "500px" }}
+        w={{ base: "300px", sm: "320px", md: "500px" }}
         h={700}
         display={"flex"}
         flexDirection={"column"}

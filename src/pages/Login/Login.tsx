@@ -9,7 +9,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleCreate = () => {
-    navigate("/create");
+    navigate("/register");
   };
 
   return (
