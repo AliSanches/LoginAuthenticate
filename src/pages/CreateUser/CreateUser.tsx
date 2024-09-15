@@ -16,7 +16,7 @@ import { notify } from "../../components/notify";
 export default function CreateUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const status = useSelector((state: RootState) => state.users.status);
+  const status = useSelector((state: RootState) => state.users.user);
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -28,13 +28,11 @@ export default function CreateUser() {
     if (name === "" || email === "" || password === "") {
       notify("Preencha todos os campos", "error");
     } else {
-      dispatch(createUser({ name, email, password }));
+      await dispatch(createUser({ name, email, password }));
 
-      if (status === "succeeded") {
+      if (status?.name != "" && status?.email != "" && status?.password != "") {
         notify("Sucesso", "success");
         navigate("/");
-      } else {
-        notify("Falha", "error");
       }
     }
   };

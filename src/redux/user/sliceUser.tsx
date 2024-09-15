@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUser } from "./UserThunk";
+import { createUser, loginUser } from "./UserThunk";
 
 // representa os dados do usuario
 export interface Users {
@@ -22,7 +22,7 @@ const INITIAL_STATE: UserState = {
   error: null,
 };
 
-const sliceUser = createSlice({
+export const sliceUser = createSlice({
   name: "user",
   initialState: INITIAL_STATE,
   reducers: {},
@@ -43,4 +43,43 @@ const sliceUser = createSlice({
   },
 });
 
-export default sliceUser.reducer;
+export interface UserLogin {
+  email: string;
+  password: string;
+}
+
+export interface UserLoginState {
+  userLogin: UserLogin | null;
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: any;
+}
+
+const INITIAL_STATE_LOGIN: UserLoginState = {
+  userLogin: null,
+  status: "idle",
+  error: null,
+};
+
+export const sliceLoginUser = createSlice({
+  name: "userLogin",
+  initialState: INITIAL_STATE_LOGIN,
+  reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.userLogin = action.payload;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      });
+  },
+});
+
+export const slUser = sliceUser.reducer;
+export const slLogin = sliceLoginUser.reducer;
