@@ -72,7 +72,7 @@ export const sliceLoginUser = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload;
+        state.error = action.error.message;
       })
       .addCase(loginUser.pending, (state) => {
         state.status = "loading";

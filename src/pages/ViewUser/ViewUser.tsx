@@ -1,18 +1,5 @@
-import {
-  Button,
-  Flex,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 
-import { FaUserEdit } from "react-icons/fa";
-import { AiOutlineUserDelete } from "react-icons/ai";
 import { CgLogOff } from "react-icons/cg";
 
 import { useNavigate } from "react-router-dom";
@@ -62,53 +49,7 @@ export default function ViewUser() {
         color={"white"}
         justifyContent={"center"}
         flexDirection={"column"}
-      >
-        <TableContainer>
-          <Table variant="simple">
-            <TableCaption>Usuários</TableCaption>
-            <Thead>
-              <Tr>
-                <Th>Nome</Th>
-                <Th>E-mail</Th>
-                <Th>Editar</Th>
-                <Th>Deletar</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr>
-                <Td>inches</Td>
-                <Td>millimetres (mm)</Td>
-                <Td>
-                  <FaUserEdit />
-                </Td>
-                <Td>
-                  <AiOutlineUserDelete />
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>feet</Td>
-                <Td>centimetres (cm)</Td>
-                <Td>
-                  <FaUserEdit />
-                </Td>
-                <Td>
-                  <AiOutlineUserDelete />
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>yards</Td>
-                <Td>metres (m)</Td>
-                <Td>
-                  <FaUserEdit />
-                </Td>
-                <Td>
-                  <AiOutlineUserDelete />
-                </Td>
-              </Tr>
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </Flex>
+      ></Flex>
     </Flex>
   );
 }

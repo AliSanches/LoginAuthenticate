@@ -8,14 +8,13 @@ import { useNavigate } from "react-router-dom";
 import { notify } from "../../components/notify";
 
 import { loginUser } from "../../redux/user/UserThunk";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/user/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/user/store";
 
 export default function Login() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-  const user = useSelector((user: RootState) => user.login.userLogin);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -26,10 +25,11 @@ export default function Login() {
     if (email === "" || password === "") {
       notify("Preencha todos os campos", "error");
     } else {
-      await dispatch(loginUser({ email, password }));
+      const response = await dispatch(loginUser({ email, password })).unwrap();
 
-      if (user?.email === email && user?.password === password) {
+      if (response && response.password === password) {
         notify("Autenticado", "success");
+        navigate("/view");
       }
     }
   };
