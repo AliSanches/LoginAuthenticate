@@ -14,6 +14,8 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import { PrivateRoute } from "./PrivateRouter";
+
 function App() {
   return (
     <ChakraProvider>
@@ -23,7 +25,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<CreateUser />} />
-            <Route path="/view" element={<ViewUser />} />
+            <Route
+              path="/view"
+              element={
+                <PrivateRoute>
+                  <ViewUser />
+                </PrivateRoute>
+              }
+            />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
