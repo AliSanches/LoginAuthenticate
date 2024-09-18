@@ -1,5 +1,5 @@
 import { Box, FormLabel, Input, Flex, Button, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { FaUserPlus } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa6";
@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { notify } from "../../components/notify";
 
 import { loginUser } from "../../redux/user/UserThunk";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/user/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/user/store";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -19,18 +19,22 @@ export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const { userLogin, status } = useSelector((state: RootState) => state.login);
+
+  useEffect(() => {
+    if (status === "succeeded" && userLogin) {
+      notify("Autenticado", "success");
+      navigate("/view");
+    }
+  }, [status, userLogin, navigate]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (email === "" || password === "") {
       notify("Preencha todos os campos", "error");
     } else {
-      const response = await dispatch(loginUser({ email, password })).unwrap();
-
-      if (response && response.password === password) {
-        notify("Autenticado", "success");
-        navigate("/view");
-      }
+      await dispatch(loginUser({ email, password })).unwrap();
     }
   };
 

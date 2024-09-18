@@ -1,13 +1,24 @@
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, Text } from "@chakra-ui/react";
 
 import { CgLogOff } from "react-icons/cg";
 
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { AppDispatch } from "../../redux/user/store";
+import { logout } from "../../redux/user/sliceUser";
+import { RootState } from "../../redux/user/store";
 
 export default function ViewUser() {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleExit = () => {
+  const user = useSelector((state: RootState) => state.login.userLogin);
+
+  const token = user?.token;
+
+  const handleLogout = () => {
+    dispatch(logout());
     navigate("/");
   };
 
@@ -36,7 +47,7 @@ export default function ViewUser() {
           fontSize={28}
           mt={2}
           mr={2}
-          onClick={handleExit}
+          onClick={handleLogout}
         >
           <CgLogOff />
         </Button>
@@ -49,7 +60,11 @@ export default function ViewUser() {
         color={"white"}
         justifyContent={"center"}
         flexDirection={"column"}
-      ></Flex>
+      >
+        <h1 style={{ fontSize: "32px" }}>
+          Bem vindo(a): <Text as="b"></Text>
+        </h1>
+      </Flex>
     </Flex>
   );
 }
