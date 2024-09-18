@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/user/store";
 import { logout } from "../../redux/user/sliceUser";
 import { RootState } from "../../redux/user/store";
+import { welcomeUser } from "../../redux/user/UserThunk";
 
 export default function ViewUser() {
   const navigate = useNavigate();
@@ -16,10 +17,22 @@ export default function ViewUser() {
   const user = useSelector((state: RootState) => state.login.userLogin);
 
   const token = user?.token;
+  const id = user?.mail.id;
 
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
+  };
+
+  // useEffect(() => {
+  //   dispatch(welcomeUser(token, id));
+  // }, []);
+
+  const handleLog = () => {
+    dispatch(welcomeUser(token, id));
+
+    console.log(token);
+    console.log(id);
   };
 
   return (
@@ -64,6 +77,8 @@ export default function ViewUser() {
         <h1 style={{ fontSize: "32px" }}>
           Bem vindo(a): <Text as="b"></Text>
         </h1>
+
+        <Button onClick={handleLog}>Log</Button>
       </Flex>
     </Flex>
   );

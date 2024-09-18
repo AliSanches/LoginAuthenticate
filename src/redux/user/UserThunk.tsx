@@ -24,3 +24,18 @@ export const loginUser = createAsyncThunk<UserLogin, UserLogin>(
     return response.data;
   }
 );
+
+export const welcomeUser = createAsyncThunk<UserWelcome, string>(
+  "userWerlcome/welcome",
+  async (id, token) => {
+    const response = await axios.get<UserWelcome>(
+      `http://localhost:4000/welcome/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  }
+);
