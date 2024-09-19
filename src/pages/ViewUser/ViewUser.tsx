@@ -9,31 +9,29 @@ import { AppDispatch } from "../../redux/user/store";
 import { logout } from "../../redux/user/sliceUser";
 import { RootState } from "../../redux/user/store";
 import { welcomeUser } from "../../redux/user/UserThunk";
+import { useEffect } from "react";
 
 export default function ViewUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
   const user = useSelector((state: RootState) => state.login.userLogin);
+  const userWelcome = useSelector(
+    (state: RootState) => state.welcome.userWelcome
+  );
 
-  const token = user?.token;
+  // const token = user?.token;
   const id = user?.mail.id;
+  const data = userWelcome?.mail;
 
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
   };
 
-  // useEffect(() => {
-  //   dispatch(welcomeUser(token, id));
-  // }, []);
-
-  const handleLog = () => {
-    dispatch(welcomeUser(token, id));
-
-    console.log(token);
-    console.log(id);
-  };
+  useEffect(() => {
+    dispatch(welcomeUser(id));
+  }, []);
 
   return (
     <Flex
@@ -54,7 +52,7 @@ export default function ViewUser() {
       >
         <Button
           bg={"transparent"}
-          color={"white"}
+          color={"red"}
           p={0}
           rounded={"50%"}
           fontSize={28}
@@ -73,12 +71,17 @@ export default function ViewUser() {
         color={"white"}
         justifyContent={"center"}
         flexDirection={"column"}
+        gap={10}
       >
         <h1 style={{ fontSize: "32px" }}>
-          Bem vindo(a): <Text as="b"></Text>
+          Bem vindo(a): <Text as="b">{data.name}</Text>
         </h1>
 
-        <Button onClick={handleLog}>Log</Button>
+        <p>
+          <span>
+            Seu email: <Text color="red">{data.email}</Text>
+          </span>
+        </p>
       </Flex>
     </Flex>
   );
