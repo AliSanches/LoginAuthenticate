@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUser, loginUser } from "./UserThunk";
+import { createUser, loginUser, welcomeUser } from "./UserThunk";
 
 //INICIO CREATE
 // representa os dados do usuario
@@ -52,7 +52,7 @@ export interface UserLogin {
 }
 
 export interface UserLoginState {
-  userLogin: UserLogin | null;
+  userLogin: UserLogin | any;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: any;
 }
@@ -94,22 +94,23 @@ export const sliceLoginUser = createSlice({
 //INICIO WELCOME
 export interface UserWelcome {
   userName: string;
+  token: any;
 }
 
 export interface UserWelcomeState {
   userWelcome: UserWelcome | any;
 }
 
-const INITIAL_SATTE_WELCOME: UserWelcomeState = {
+const initialState: UserWelcomeState = {
   userWelcome: null,
 };
 
 export const sliceUserWelcome = createSlice({
   name: "userWelcome",
-  initialState: INITIAL_SATTE_WELCOME,
+  initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(loginUser.fulfilled, (state, action) => {
+    builder.addCase(welcomeUser.fulfilled, (state, action) => {
       state.userWelcome = action.payload;
     });
   },

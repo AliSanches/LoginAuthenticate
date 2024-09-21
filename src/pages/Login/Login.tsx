@@ -21,12 +21,13 @@ export default function Login() {
 
   const { userLogin, status } = useSelector((state: RootState) => state.login);
 
+  // monitorar os estados userLogin, status
   useEffect(() => {
     if (status === "succeeded" && userLogin) {
       notify("Autenticado", "success");
       navigate("/view");
     }
-  }, [status, userLogin, navigate]);
+  }, [userLogin, status, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

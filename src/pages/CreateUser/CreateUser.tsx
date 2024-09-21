@@ -8,15 +8,14 @@ import { MdExitToApp } from "react-icons/md";
 
 import { useNavigate } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createUser } from "../../redux/user/UserThunk";
-import { AppDispatch, RootState } from "../../redux/user/store";
+import { AppDispatch } from "../../redux/user/store";
 import { notify } from "../../components/notify";
 
 export default function CreateUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const status = useSelector((state: RootState) => state.users.user);
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -28,11 +27,19 @@ export default function CreateUser() {
     if (name === "" || email === "" || password === "") {
       notify("Preencha todos os campos", "error");
     } else {
-      await dispatch(createUser({ name, email, password }));
+      try {
+        const response = await dispatch(
+          createUser({ name, email, password })
+        ).unwrap();
 
-      if (status?.name != "" && status?.email != "" && status?.password != "") {
-        notify("Sucesso", "success");
-        navigate("/");
+        if (!response) {
+          notify("Erro ao criar usuário", "error");
+        } else {
+          notify("Sucesso", "success");
+          navigate("/");
+        }
+      } catch {
+        notify("Erro", "error");
       }
     }
   };
@@ -93,6 +100,7 @@ export default function CreateUser() {
         >
           <FormLabel>Nome</FormLabel>
           <Input
+            id="name"
             size={"sm"}
             rounded={"md"}
             mb={5}
@@ -103,6 +111,7 @@ export default function CreateUser() {
 
           <FormLabel>E-mail</FormLabel>
           <Input
+            id="email"
             size={"sm"}
             rounded={"md"}
             mb={5}
@@ -113,6 +122,7 @@ export default function CreateUser() {
 
           <FormLabel color={"white"}>Senha</FormLabel>
           <Input
+            id="password"
             type="password"
             size={"sm"}
             rounded={"md"}

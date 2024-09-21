@@ -1,4 +1,4 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Spinner, Text } from "@chakra-ui/react";
 
 import { CgLogOff } from "react-icons/cg";
 
@@ -15,23 +15,27 @@ export default function ViewUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const user = useSelector((state: RootState) => state.login.userLogin);
-  const userWelcome = useSelector(
-    (state: RootState) => state.welcome.userWelcome
-  );
+  const dataUser = useSelector((state: RootState) => state.login.userLogin);
 
-  // const token = user?.token;
-  const id = user?.mail.id;
-  const data = userWelcome?.mail;
+  const user = useSelector((state: RootState) => state.welcome.userWelcome);
 
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
   };
 
+  const token = dataUser.token;
+
   useEffect(() => {
-    dispatch(welcomeUser(id));
+    dispatch(welcomeUser({ id: dataUser.data.id, token }));
   }, []);
+
+  if (!user)
+    return (
+      <Flex justifyContent="center">
+        <Spinner />
+      </Flex>
+    );
 
   return (
     <Flex
@@ -74,12 +78,12 @@ export default function ViewUser() {
         gap={10}
       >
         <h1 style={{ fontSize: "32px" }}>
-          Bem vindo(a): <Text as="b">{data.name}</Text>
+          Bem vindo(a): <Text as="b">{user.name}</Text>
         </h1>
 
         <p>
           <span>
-            Seu email: <Text color="red">{data.email}</Text>
+            Seu email: <Text color="red">{user.email}</Text>
           </span>
         </p>
       </Flex>
